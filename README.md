@@ -1,4 +1,4 @@
-# keyboard_v2
+# keylogger_v2
 
 Инструкция по устоновке:
   git clone https://github.com/eXedna/keylogger_v2

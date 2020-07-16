@@ -5,8 +5,15 @@
 ```sh
 git clone https://github.com/eXedna/keylogger_v2
 cd keylogger_v2
-python3 -m pip install -r req.txt
+python -m pip install -r req.txt
 python builder.py
+```
+Стоит заметить что взависимости от того, какой процесс создания файла вы захотите выбрать (консольный или графический) в последнем шагк следует вводить разные команды
+```sh
+Консольный ввод данных:
+python builder.py
+Графический ввод данных:
+python builder2.py
 ```
 
 [+]  Всё!
